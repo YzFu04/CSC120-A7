@@ -1,5 +1,4 @@
 /* This is a stub for the House class */
-
 import java.util.ArrayList;
 
 /*
@@ -14,14 +13,20 @@ public class House extends Building{
    * an attribute to indicate whether the house has a dining room
    */
   private boolean hasDiningRoom;
+  /*
+   * an attribute to indicate whether elevator is available
+   */
+  private boolean elevator;
+  protected int activeFloor = -1;
 
   /*
    * a constructor to initialize residents to a new ArrayList<String>(), as well as to set hasDiningRoom to indicate whether or not the house has a dining room
    */
-  public House(String name, String address, int nFloors, ArrayList<String> residents, boolean hasDiningRoom) {
+  public House(String name, String address, int nFloors, ArrayList<String> residents, boolean hasDiningRoom, boolean elevator) {
     super (name, address, nFloors);
     this.residents = new ArrayList<String>();
     this.hasDiningRoom = hasDiningRoom;
+    this.elevator = elevator;
     System.out.println("You have built a house: 🏠");
   }
 
@@ -43,11 +48,11 @@ public class House extends Building{
   /*
    * a method to update the ArrayList of residents every time someone moves in
    */
-  public void moveIn(String name) {
-    if (residents.contains(name)) {
+  public void moveIn(String person) {
+    if (residents.contains(person)) {
       throw new RuntimeException("Resident already moved in");
     } else {
-      residents.add(name);
+      residents.add(person);
     }
   }
 
@@ -55,10 +60,10 @@ public class House extends Building{
    * a method to update the ArrayList of residents every time someone moves out
    * @return name the name of the person who moved out
    */
-  public String moveOut(String name) {
-    if (residents.contains(name)){
-      residents.remove(name);
-      return name;
+  public String moveOut(String person) {
+    if (residents.contains(person)){
+      residents.remove(person);
+      return person;
     } else {
       throw new RuntimeException("Resident not found");
     }
@@ -71,6 +76,52 @@ public class House extends Building{
   public boolean isResident(String person) {
     boolean isResident = residents.contains(person);
     return isResident;
+  }
+
+  /*
+   * overloaded method that tells us whether or not two given people is a resident of the House
+   * @return isResidentA, isResidentB
+   */
+  public boolean isResident(String personA, String personB) {
+    boolean isResidentA = residents.contains(personA);
+    boolean isResidentB = residents.contains(personB);
+    return isResidentA & isResidentB;
+  }
+
+  /*
+   * overloaded method that print all residents in the house
+   * @return Arraylist
+   */
+  public void isResident() {
+    for (String name : residents) {
+      System.out.println(name);
+    }
+  }
+
+  /*
+   * @override showOptions() in Building class
+   */
+  public void goToFloor(int floorNum) {
+    if (elevator){
+      if (this.activeFloor == -1) {
+        throw new RuntimeException("You are not inside this Library. Must call enter() before navigating between floors.");
+      }
+      if (floorNum < -1 || floorNum > this.nFloors) {
+        throw new RuntimeException("Invalid floor number. Valid range for this Building is 1-" + this.nFloors +".");
+    }
+    System.out.println("You are now on floor #" + floorNum + " of " + this.name);
+    this.activeFloor = floorNum;
+  }
+  else {
+    throw new RuntimeException("There is not an elevator in this house.");
+  }
+}
+
+  /*
+   * @override showOptions() in Building class
+   */
+  public void showOptions() {
+    System.out.println("Available options at " + this.name + ": \n + enter() \n + exit() \n + goUp() \n + goDown() \n + goToFloor(n) \n + hasDiningRoom() \n + nResidents() \n + moveIn(person) \n + moveOut(person) \n + isResident(person) \n + isResident(personA, personB) \n + isResident()");
   }
 
   // public static void main(String[] args) {

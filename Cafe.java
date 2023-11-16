@@ -20,6 +20,12 @@ public class Cafe extends Building{
      * an attribute which is the number of cups remaining in inventory
      */
     private int nCups;
+    /*
+    * an attribute to indicate whether elevator is available
+    */
+    protected boolean elevator = true;
+    protected int activeFloor = -1;
+
 
     /*
      * a constructor to set the starting values of each of the stocked items (coffee, sugar, cream, and cups)
@@ -52,6 +58,42 @@ public class Cafe extends Building{
     }
 
     /*
+     * overloaded method to indicate number of coffee
+     */
+    public void sellCoffee(int size, int sugar, int cream, int cup) {
+        if (nCoffeeOunces >= size && nSugarPackets >= sugar && nCreams >= cream && nCups >= 1) {
+            nCoffeeOunces = nCoffeeOunces - size * cup;
+            nSugarPackets = nSugarPackets - sugar * cup;
+            nCreams = nCreams - cream * cup;
+            nCups = nCups - cup;
+        } else {
+            restock(nCoffeeOunces, nSugarPackets, nCreams, nCups);
+            nCoffeeOunces = nCoffeeOunces - size * cup;
+            nSugarPackets = nSugarPackets - sugar * cup;
+            nCreams = nCreams - cream * cup;
+            nCups = nCups - cup;
+        }
+    }
+
+    /*
+     * overloaded method to make a cup of coffee in default sugar, and cream
+     */
+    public void sellCoffee(int size) {
+        if (nCoffeeOunces >= size && nSugarPackets >= 1 && nCreams >= 1 && nCups >= 1) {
+            nCoffeeOunces -= size;
+            nSugarPackets -= 1;
+            nCreams -= 1;
+            nCups -= 1;
+        } else {
+            restock(nCoffeeOunces, nSugarPackets, nCreams, nCups);
+            nCoffeeOunces -= size;
+            nSugarPackets -= 1;
+            nCreams -= 1;
+            nCups -= 1;
+        }
+    }
+
+    /*
      * a method to restock when necessary
      */
     private void restock(int size, int sugar, int cream, int cup) {
@@ -60,6 +102,28 @@ public class Cafe extends Building{
         nCreams += cream;
         nCups += cup;
     }
+
+    /*
+     * @override
+     */
+    public void goToFloor(int floorNum) {
+        if (this.activeFloor == -1) {
+            throw new RuntimeException("You are not inside this Building. Must call enter() before navigating between floors.");
+        }
+        if (floorNum < 1 || floorNum > this.nFloors) {
+            throw new RuntimeException("Invalid floor number. Valid range for this Building is 1-" + this.nFloors +".");
+        }
+        System.out.println("You are now on floor #" + floorNum + " of " + this.name);
+        this.activeFloor = floorNum;
+    }
+
+    /*
+     * @override showOptions() in Building class
+     */
+    public void showOptions() {
+        System.out.println("Available options at " + this.name + ": \n + enter() \n + exit() \n + goUp() \n + goDown() \n + goToFloor(n) \n + sellCoffee(size, sugar, cream) \n + sellCoffee(size, sugar, cream, cup) \n + sellCoffee(size) \n + restock(size, sugar, cream, cup) ");
+    }
+
     // public static void main(String[] args) {
     //     new Cafe();
     // }

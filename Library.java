@@ -9,6 +9,11 @@ public class Library extends Building {
    * an attribute in which we will store each book's title and author
    */ 
   private Hashtable<String, Boolean> collection;
+  /*
+   * an attribute to indicate whether elevator is available
+   */
+  protected boolean elevator = true;
+  protected int activeFloor = -1;
 
   /* 
    * a constructor
@@ -88,9 +93,55 @@ public class Library extends Building {
       System.out.println(isAvailable(title));
     }
   }
-    
+
+  /*
+   * overloaded method that only prints out the available/unavailable books
+   * @return available/unavailable collection
+   */
+  public void printCollection(boolean currentStatus) {
+    for (String title : collection.keySet()) {
+      if (isAvailable(title) == currentStatus) {
+        System.out.println(title);
+      }
+    }
+  }
+
+  /*
+   * overloaded method that prints out the collection with a specific string (including checkout status)
+   * @return books with specific string
+   */
+  public void printCollection(String keyword) {
+    for (String title : collection.keySet()) {
+      if (title.contains(keyword)) {
+        System.out.println(title);
+        System.out.println(isAvailable(title));
+      }
+    }
+  }
+
+  /*
+   * @override showOptions() in Building class
+   */
+  public void goToFloor(int floorNum) {
+    if (this.activeFloor == -1) {
+      throw new RuntimeException("You are not inside this Library. Must call enter() before navigating between floors.");
+    }
+    if (floorNum < -1 || floorNum > this.nFloors) {
+      throw new RuntimeException("Invalid floor number. Valid range for this Building is -1 -" + this.nFloors +".");
+    }
+    System.out.println("You are now on floor #" + floorNum + " of " + this.name);
+    this.activeFloor = floorNum;
+}
+
+  /*
+   * @override showOptions() in Building class
+   */
+  public void showOptions() {
+    System.out.println("Available options at " + this.name + ": \n + enter() \n + exit() \n + goUp() \n + goDown() \n + goToFloor(n) \n + addTitle(title) \n + removeTitle(title) \n + checkOut(title) \n + returnBook(title) \n + containsTitle(title) \n + isAvailable(title) \n + printCollection() \n + printCollection(currentStatus) \n + printCollection(keyword)");
+  }
+
+}
+
   // public static void main(String[] args) {
   //   new Library();
   // }
-
-}
