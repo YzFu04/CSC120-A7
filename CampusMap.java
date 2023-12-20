@@ -73,11 +73,12 @@ public class CampusMap {
 
     public static void main(String[] args) {
         CampusMap myMap = new CampusMap();
-        Hashtable<String, Boolean> collectionNeilson;
-        Hashtable<String, Boolean> collectionJosten;
-        ArrayList<String> residentsCapen;
-        ArrayList<String> residentsGillet;
-        ArrayList<String> residentsWashburn;
+        Hashtable<String, Boolean> collectionNeilson = new Hashtable<>();
+        Hashtable<String, Boolean> collectionJosten = new Hashtable<>();
+        ArrayList<String> residentsCapen = new ArrayList<>();
+        ArrayList<String> residentsGillet = new ArrayList<>();
+        ArrayList<String> residentsWashburn = new ArrayList<>();
+
         myMap.addBuilding(new Building("Ford Hall", "100 Green Street Northampton, MA 01063", 4));
         myMap.addBuilding(new Building("Bass Hall", "4 Tyler Court Northampton, MA 01063", 4));
         myMap.addLibrary(new Library("Neilson Library", "7 Neilson Drive Northampton, MA 01063", 4, collectionNeilson));

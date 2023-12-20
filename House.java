@@ -79,13 +79,17 @@ public class House extends Building{
   }
 
   /*
-   * overloaded method that tells us whether or not two given people is a resident of the House
-   * @return isResidentA, isResidentB
+   * overloaded method that tells us whether or not given people are residents of the House
+   * @param people An array of people to check
+   * @return @return true if all people are residents, false otherwise
    */
-  public boolean isResident(String personA, String personB) {
-    boolean isResidentA = residents.contains(personA);
-    boolean isResidentB = residents.contains(personB);
-    return isResidentA & isResidentB;
+  public boolean areResidents(String[] people) {
+    for (String person : people) {
+        if (!residents.contains(person)) {
+            return false;
+        }
+      }
+    return true;
   }
 
   /*
@@ -102,20 +106,20 @@ public class House extends Building{
    * @override showOptions() in Building class
    */
   public void goToFloor(int floorNum) {
-    if (elevator){
-      if (this.activeFloor == -1) {
-        throw new RuntimeException("You are not inside this Library. Must call enter() before navigating between floors.");
-      }
-      if (floorNum < -1 || floorNum > this.nFloors) {
-        throw new RuntimeException("Invalid floor number. Valid range for this Building is 1-" + this.nFloors +".");
+      if (elevator){
+        if (this.activeFloor == -1) {
+          throw new RuntimeException("You are not inside this house. Must call enter() before navigating between floors.");
+        }
+        if (floorNum < -1 || floorNum > this.nFloors) {
+          throw new RuntimeException("Invalid floor number. Valid range for this House is 1-" + this.nFloors +".");
+        }
+      System.out.println("You are now on floor #" + floorNum + " of " + this.name);
+      this.activeFloor = floorNum;
     }
-    System.out.println("You are now on floor #" + floorNum + " of " + this.name);
-    this.activeFloor = floorNum;
+    else {
+      throw new RuntimeException("There is not an elevator in this house.");
+    }
   }
-  else {
-    throw new RuntimeException("There is not an elevator in this house.");
-  }
-}
 
   /*
    * @override showOptions() in Building class

@@ -131,7 +131,7 @@ public class Library extends Building {
     }
     System.out.println("You are now on floor #" + floorNum + " of " + this.name);
     this.activeFloor = floorNum;
-}
+  }
 
   /*
    * @override showOptions() in Building class

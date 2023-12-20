@@ -108,10 +108,10 @@ public class Cafe extends Building{
      */
     public void goToFloor(int floorNum) {
         if (this.activeFloor == -1) {
-            throw new RuntimeException("You are not inside this Building. Must call enter() before navigating between floors.");
+            throw new RuntimeException("You are not inside this Cafe. Must call enter() before navigating between floors.");
         }
-        if (floorNum < 1 || floorNum > this.nFloors) {
-            throw new RuntimeException("Invalid floor number. Valid range for this Building is 1-" + this.nFloors +".");
+        if (floorNum != 1) {
+            throw new RuntimeException("Invalid floor number. Valid range for this Cafe is 1.");
         }
         System.out.println("You are now on floor #" + floorNum + " of " + this.name);
         this.activeFloor = floorNum;
